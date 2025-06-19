@@ -4,12 +4,15 @@
 
 ## 核心功能
 
-* 兼容 树莓派 CSI 摄像头 和标准 USB 摄像头。
-* 提供本地录像功能。
-* 支持 `H.265`, `H.264`, `MJPEG` 主流编码格式。
-* 无缝对接地面站软件：QGroundControl (QGC) 和 Mission Planner。
-* 配带自研极速播放器。
-* 支持数传功能支持端口映射。
+* 双模网络 : 支持 AP热点模式（自建WiFi网络）与 Station客户端模式（接入现有网络）
+
+* 全兼容视频输入 ：支持原生驱动树莓派CSI摄像头及标准USB摄像头，自动识别H.265/H.264/MJPEG编码协议
+* 智能本地录像 :  双通道并行录制，支持自定义切片时长。
+* 深度适配飞控生态 ：无缝对接地面站软件QGroundControl (QGC) 和 Mission Planner。
+* 超低延时播放(专业版) : 配带自研极速播放器。
+* 数传透传 : 串口↔TCP/UDP双向数据映射。
+* 轻量级 : 卡片级大小，易于嵌入。
+* 低功耗 : 5V供电超低功耗，支持移动电源供电。
 
 # 镜像下载地址
 
@@ -77,8 +80,6 @@
   * 支持同时两路录像，录像地址都为空，则不录像。
   * 支持csi摄像头录像和usb支持h264编码和h265编码的摄像头，不支持mjpeg摄像头录像。
 
-
-
 # 配置文件详解
 
 将sd卡读卡器插入电脑，配置文件在overlays文件夹下，配置文件名imgwifi.ini。
@@ -121,7 +122,7 @@ expand_filesystem = false
 * 如果想将设备作为热点使用修改enable_ap_mode = true即可。
 * 如果想将设备作为WiFi客户端连接到其他网络，enable_ap_mode = false，并且在WiFi_Client中配置对应wifi的名称和密码。
 
-
+**注：如果系统设置后导致无法启动，可以取出sd卡修改配置文件中的reset_default = true，重新插上sd卡上电即可恢复默认参数。**
 
 # 系统更新
 
@@ -134,6 +135,12 @@ expand_filesystem = false
 
 
 # QGroundControl
+
+**接线**
+
+![](./img/接线.jpg)
+
+
 
 **配置数传**
 
@@ -207,7 +214,9 @@ rtspsrc location=rtsp://192.168.2.104/cam latency=0 ! rtph265depay ! h265parse !
 
 # 自带播放器
 
-配置图传ip和视频流地址点击保存
+该播放器不支持开源版本，需要升级专业版。
+
+配置图传ip和视频流地址点击保存，支持rtsp视频流和mjpeg视频流。
 
 ![](./img/流媒体配置.jpg)
 
